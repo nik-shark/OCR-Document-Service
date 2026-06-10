@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'layout.html' %}
+
+{% block title %}
+{{ name_page }}
+{% endblock %}
+
+
+{% block content %}
+<div class="features">
+    <h1>{{ title }}</h1>
+    <h2>Выберите изображение для загрузки в базу</h2>
+
+    <form action="/api/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit" class="btn btn-success">Загрузить</button>
+    </form>
+</div>
+{% endblock %}

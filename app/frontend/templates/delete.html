@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% extends 'layout.html' %}
+
+{% block title %}
+{{ name_page }}
+{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>{{ title }}</h1>
+    <h2>Введите id файла для удаления из базы данных и из хранилища</h2>
+    <form action="/api/delete" method="get">
+        <input type="number"
+               name="item_id"
+               placeholder="Введите id файла">
+
+        <button type="submit" class="btn btn-danger">Удалить файл</button>
+    </form>
+</div>
+{% endblock %}

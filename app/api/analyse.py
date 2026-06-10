@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 
-router = APIRouter(tags=['Get'])
+router = APIRouter(tags=['Get'], prefix="/api")
 
 @router.get('/analyse')
 async def doc_analyse():

@@ -1,0 +1,215 @@
+/* ====== Body ====== */
+body {
+    margin: 0;
+    display: flex;
+    background-color: rgb(30, 31, 34);
+}
+
+/* ====== Sidebar ====== */
+aside {
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    min-height: 100vh;
+    padding: 30px;
+    background: rgb(0, 0, 0);
+    color: #fff;
+    border-right: 5px solid #4d4d4d;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+/* ====== Navigation links ====== */
+aside ul {
+    list-style: none;
+    padding: 0;
+}
+
+aside ul li {
+    color: White;
+    display: block;
+    margin-top: 20px;
+    font-size: 25px;
+    transition: all .12s ease;
+}
+
+aside a {
+    text-decoration: none;
+}
+
+aside ul li:hover, aside ul a:hover {
+    color: #DC143C;
+    transform: scale(1.05);
+}
+
+aside i {
+    margin-right: 10px;
+}
+
+/* ====== Title ====== */
+aside h3 {
+    margin: 20px auto;
+    font-size: clamp(15px, 2vw, 50px);
+    word-break: break-word;
+}
+
+/* ====== Layouts ====== */
+.features {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    color: #fff;
+}
+
+.features h1 {
+    font-size: 75px;
+    color: rgb(255, 144, 0);
+    -webkit-text-stroke: 2px rgb(250, 155, 30));
+}
+
+.features h2 {
+    font-size: 30px;
+    max-width: 900px;
+    margin: 20px auto
+}
+
+.features p {
+    font-size: 30px;
+    max-width: 900px;
+    margin: 20px auto
+}
+
+
+.alert {
+    margin-top: 20px;
+    width: 280px;
+    box-sizing: border-box;
+    background-color: #fa9b1e;
+    color: black;
+}
+
+/* ====== Сards ====== */
+.alert img {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+    margin: 20px auto;
+    border-radius: 10px;
+}
+
+.image-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+a7 {
+    font-size: clamp(15px, 1vw, 50px);
+    margin: 20px auto;
+   }
+
+/* ====== Other ====== */
+main {
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+    body {flex-direction: column;}
+
+    aside {
+    width: 100%;
+    min-height: auto;
+    }
+
+    .features {margin-top: 40px;}
+}
+
+
+/* ====== Buttons ====== */
+.block-buttons {
+    font-size: 75px;
+    color: rgb(255, 144, 0);
+    -webkit-text-stroke: 2px rgb(250, 155, 30));
+}
+/* ====== Pictures block ====== */
+/* ====== Logo ====== */
+aside img {
+    width: 280px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ====== DataBase picture ====== */
+.db-image {
+    width: 500px;
+    height: auto;
+
+    display: block;
+    margin: 20px auto;
+}
+
+/* ====== Search picture ====== */
+.search-gif {
+    width: 320px;
+    height: auto;
+}
+
+/* ====== Delete picture ====== */
+.vacuum-gif {
+    width: 350px;
+    height: auto;
+
+    display: block;
+    margin: 20px auto;
+}
+/* ====== Success add picture ====== */
+.success_add-gif {
+    width: 350px;
+    height: auto;
+
+    display: block;
+    margin: 20px auto;
+}
+
+.info-gif {
+    width: 350px;
+    height: auto;
+
+    display: block;
+    margin: 20px auto;
+}
+
+.top_bar {
+    position: fixed;
+
+    top: 15px;
+    right: 30px;
+
+    display: flex;
+    gap: 20px;
+
+    z-index: 9999;
+}
+
+.top_bar a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    transition: all .12s ease;
+}
+
+.top_bar a:hover {
+    color: #DC143C;
+    transform: scale(1.05);
+}
+
+.top_bar i {
+    margin-right: 8px;
+}

@@ -1,14 +1,23 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Text, DateTime
 from sqlalchemy.orm import relationship
 from core.engine import Base
+from datetime import datetime
 
 
 class DocumentsModel(Base):
     __tablename__ = 'documents'
 
     id = Column(Integer, primary_key=True, index=True)
-    path = Column(String)
-    date = Column(DateTime)
+    path = Column(String(256))
+    date = Column(
+        DateTime,
+        default=datetime.now
+    )
+
+    text = relationship(
+        'DocumentsTextModel',
+        back_populates='doc'
+    )
 
 
 class DocumentsTextModel(Base):
@@ -16,6 +25,9 @@ class DocumentsTextModel(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     id_doc = Column(Integer, ForeignKey('documents.id'))
-    text = Column(String)
+    text = Column(Text)
 
-    doc = relationship('DocumentsModel')
+    doc = relationship(
+        'DocumentsModel',
+        back_populates='text'
+    )
