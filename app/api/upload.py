@@ -1,41 +1,17 @@
 from fastapi import APIRouter, File, UploadFile, Depends
-from fastapi.responses import RedirectResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from services.s3_upload import upload_file_to_s3
-from db.models import DocumentsModel
-from core.engine import get_db
+from schemas.schemas import UploadResponse
+from db.engine import get_db
+from services.upload import doc_upload
+
+router = APIRouter(prefix="/api")
 
 
-ALLOWED_EXTENSIONS = {"image/jpeg", "image/png"}
-router = APIRouter(tags=['Upload'], prefix="/api")
-
-
-@router.post('/upload')
+@router.post('/upload', response_model=UploadResponse)
 async def upload_doc(
         file: UploadFile = File(...),
         db: AsyncSession = Depends(get_db)
 ):
 
-    if file.content_type not in ALLOWED_EXTENSIONS:
-        return RedirectResponse(
-            url="upload/error",
-            status_code=303,
-        )
-
-    file_path = await upload_file_to_s3(file)
-
-    new_document = DocumentsModel(
-        path=file_path
-    )
-
-    db.add(new_document)
-
-    await db.commit()
-
-    await db.refresh(new_document)
-
-    return RedirectResponse(
-        url="upload/success",
-        status_code=303,
-    )
+    return await doc_upload(file, db)

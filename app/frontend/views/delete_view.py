@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Delete_view'])
+router = APIRouter()
 
 
 @router.get("/delete", response_class=HTMLResponse, name='delete_view')

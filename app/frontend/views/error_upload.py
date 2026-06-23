@@ -3,7 +3,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Error_upload_view'])
+router = APIRouter()
 
 
 @router.get(

@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Upload_view'])
+router = APIRouter()
 
 
 @router.get("/upload", response_class=HTMLResponse, name='upload_view')

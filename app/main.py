@@ -18,7 +18,7 @@ from frontend.views.success_delete import router as success_delete_view
 from frontend.views.error_upload import router as error_upload_view
 from frontend.views.error_delete import router as error_delete_view
 
-from core.engine import engine, Base
+from db.engine import engine, Base
 
 
 @asynccontextmanager
@@ -33,24 +33,23 @@ app = FastAPI(lifespan=lifespan)
 
 
 # ===== html templates ===== #
-app.include_router(home_view)
+app.include_router(home_view, tags=['templates'])
+app.include_router(upload_view, tags=['templates'])
+app.include_router(delete_view, tags=['templates'])
+app.include_router(get_text_view, tags=['templates'])
+app.include_router(analyse_view, tags=['templates'])
 
-app.include_router(upload_view)
-app.include_router(delete_view)
-app.include_router(get_text_view)
-app.include_router(analyse_view)
+app.include_router(success_upload_view, tags=['templates'])
+app.include_router(error_upload_view, tags=['templates'])
 
-app.include_router(success_upload_view)
-app.include_router(success_delete_view)
-
-app.include_router(error_delete_view)
-app.include_router(error_upload_view)
+app.include_router(success_delete_view, tags=['templates'])
+app.include_router(error_delete_view, tags=['templates'])
 
 # ===== api ===== #
-app.include_router(upload_router)
-app.include_router(delete_router)
-app.include_router(get_text_router)
-app.include_router(analyse_router)
+app.include_router(upload_router, tags=['api'])
+app.include_router(analyse_router, tags=['api'])
+app.include_router(get_text_router, tags=['api'])
+app.include_router(delete_router, tags=['api'])
 
 
 # ===== mount static files ===== #

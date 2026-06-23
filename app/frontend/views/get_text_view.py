@@ -4,7 +4,7 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Get_text_view'])
+router = APIRouter()
 
 
 @router.get("/get", response_class=HTMLResponse, name='get_text_view')

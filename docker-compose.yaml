@@ -16,6 +16,27 @@ services:
       - db
 
 
+  worker:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    command:
+      - celery
+      - -A
+      - celery_app:celery_app
+      - worker
+      - --loglevel=INFO
+      - --concurrency=1
+    volumes:
+      -  ./app:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - minio
+      - rabbitmq
+
+
   db:
     image: postgres:15
     environment:
@@ -27,8 +48,10 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+
   minio:
     image: minio/minio:latest
+    command: server /data --console-address ":9001"
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -37,10 +60,38 @@ services:
       MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
     volumes:
       - minio_data:/data
-    command: server /data --console-address ":9001"
     restart: unless-stopped
+
+
+  alembic:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    entrypoint: [ "alembic" ]
+    command: [ "upgrade", "head" ]
+
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
 
 volumes:
   postgres_data:
   minio_data:
+  rabbitmq_data:

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 
-router = APIRouter(tags=['Upload'], prefix="/api")
+router = APIRouter(prefix="/api")
 
 @router.get('/gettext')
 async def get_text():
