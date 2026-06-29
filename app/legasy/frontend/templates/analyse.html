@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% extends 'layout.html' %}
+
+{% block title %}
+{{ name_page }}
+{% endblock %}
+
+
+{% block content %}
+<div class="features">
+    <h1>{{ title }}</h1>
+    <h2>Выберите изображение для распознавания из базы изображений.
+        Текст будет распознан в фоновом режиме.
+    </h2>
+                <form action="/api/analyse" method="post">
+                <input type="number"
+                       name="item_id"
+                       placeholder="Введите id файла">
+
+                <button type="submit" class="btn btn-warning">Распознать текст</button>
+    </form>
+</div>
+{% endblock %}

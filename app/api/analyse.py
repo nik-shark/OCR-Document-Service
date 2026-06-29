@@ -1,12 +1,20 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from db.engine import get_db
+from services.analyse import start_document_analyse
+
+router = APIRouter(prefix="/api")
 
 
-router = APIRouter(tags=['Get'], prefix="/api")
+@router.post('/analyse',
+             summary='Analyse documents',
+             description="Analyse image and record information in database."
+             )
 
-@router.get('/analyse')
-async def doc_analyse():
-    return f"""
-        Апи должна принимать id документа и вызывать функцию очереди задач celery для выполнения в
-    фоновом режиме. В методе celery необходимо вызвать библиотеку tesseract для получения текста и записать результат в
-    Documents_text. Вам здесь понадобиться брокер сообщений, например RabbitMQ.
-    """
+async def document_analyse(
+        item_id: int,
+        db: AsyncSession = Depends(get_db)
+):
+
+    return await start_document_analyse(item_id, db)

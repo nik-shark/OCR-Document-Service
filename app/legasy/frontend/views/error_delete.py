@@ -2,23 +2,22 @@ from fastapi import Request, APIRouter
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 
-
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Success_upload_view'])
+router = APIRouter()
 
 
 @router.get(
-    "/api/upload/success",
+    "/api/delete/error",
     response_class=HTMLResponse,
-    name='success_upload_view')
-async def success_upload_doc_temp(request: Request):
+    name='error_delete_view')
+async def error_delete_doc_temp(request: Request):
     data = {
-        'name_page': 'success upload',
-        'title': 'Успешная загрузка'
+        'name_page': 'error delete',
+        'title': 'Ошибка удаления'
     }
 
     return templates.TemplateResponse(
         request=request,
-        name="success_upload.html",
+        name="error_delete.html",
         context=data
     )

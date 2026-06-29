@@ -2,6 +2,7 @@ import os
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
+from sqlalchemy.pool import NullPool
 
 load_dotenv()
 
@@ -13,7 +14,11 @@ DATABASE_URL = (
     f'{os.getenv('POSTGRES_DB')}'
 )
 
-engine = create_async_engine(DATABASE_URL, echo=True)
+engine = create_async_engine(
+    DATABASE_URL,
+    echo=True,
+    poolclass=NullPool,
+)
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,

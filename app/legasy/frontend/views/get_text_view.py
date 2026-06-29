@@ -4,18 +4,18 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Home_view'])
+router = APIRouter()
 
 
-@router.get("/", response_class=HTMLResponse, name='home_view')
-async def read_root(request: Request):
+@router.get("/get", response_class=HTMLResponse, name='get_text_view')
+async def get_text_temp(request: Request):
     data = {
-        'name_page': 'home',
-        'title': 'Главная страница'
+        'name_page': 'get text',
+        'title': 'Получение текста'
     }
 
     return templates.TemplateResponse(
         request=request,
-        name="home.html",
+        name="get_text.html",
         context=data
     )

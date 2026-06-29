@@ -29,3 +29,29 @@ async def upload_file_to_s3(file: UploadFile) -> str:
     )
 
     return file_name
+
+
+async def delete_file_to_s3(file_name: str) -> bool:
+    try:
+        client.remove_object(
+            bucket_name=BUCKET_NAME,
+            object_name=file_name,
+        )
+        return True
+
+    except Exception as e:
+        print(e)
+        return False
+
+
+async def get_img_from_s3(file_name: str):
+    response = client.get_object(
+        bucket_name=BUCKET_NAME,
+        object_name=file_name,
+    )
+
+    try:
+        return response.read()
+    finally:
+        response.close()
+        response.release_conn()

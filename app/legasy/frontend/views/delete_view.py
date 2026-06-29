@@ -4,18 +4,18 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Get_text_view'])
+router = APIRouter()
 
 
-@router.get("/get", response_class=HTMLResponse, name='get_text_view')
-async def get_text_temp(request: Request):
+@router.get("/delete", response_class=HTMLResponse, name='delete_view')
+async def delete_doc_temp(request: Request):
     data = {
-        'name_page': 'get text',
-        'title': 'Получение текста'
+        'name_page': 'delete documents',
+        'title': 'Удаление документов'
     }
 
     return templates.TemplateResponse(
         request=request,
-        name="get_text.html",
+        name="delete.html",
         context=data
     )

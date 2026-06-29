@@ -4,18 +4,18 @@ from fastapi.responses import HTMLResponse
 
 
 templates = Jinja2Templates(directory="frontend/templates")
-router = APIRouter(tags=['Upload_view'])
+router = APIRouter()
 
 
-@router.get("/upload", response_class=HTMLResponse, name='upload_view')
-async def upload_doc_temp(request: Request):
+@router.get("/", response_class=HTMLResponse, name='home_view')
+async def read_root(request: Request):
     data = {
-        'name_page': 'upload documents',
-        'title': 'Загрузка документов'
+        'name_page': 'home',
+        'title': 'Главная страница'
     }
 
     return templates.TemplateResponse(
         request=request,
-        name="upload.html",
+        name="home.html",
         context=data
     )
