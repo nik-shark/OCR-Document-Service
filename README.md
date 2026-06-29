@@ -67,7 +67,7 @@ The text can be retrieved through the API.
 
 
 ## Project structure:
-
+``` text 
 ├── app/
 │   ├── api/
 │   │   ├── analyse.py
@@ -107,3 +107,4 @@ The text can be retrieved through the API.
 ├── README.md
 │
 └── requirements.txt
+```

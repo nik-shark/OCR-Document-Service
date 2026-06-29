@@ -1,0 +1,70 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  console:
+    format: '%(levelname)-8s | %(name)s | %(message)s'
+
+  detailed:
+    format: '%(asctime)s | %(levelname)-8s | %(name)s | %(message)s | %(filename)s:%(lineno)d'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: console
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: detailed
+    filename: placeholder.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf-8
+    delay: true
+
+  errors:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: detailed
+    filename: placeholder.log
+    maxBytes: 10485760
+    backupCount: 5
+    encoding: utf-8
+    delay: true
+
+root:
+  level: DEBUG
+  handlers:
+    - console
+    - file
+    - errors
+
+loggers:
+  sqlalchemy.engine:
+    level: WARNING
+
+  multipart:
+    level: WARNING
+
+  PIL:
+    level: WARNING
+
+  uvicorn:
+    level: INFO
+    handlers: [ ]
+    propagate: true
+
+  uvicorn.error:
+    level: INFO
+    handlers: [ ]
+    propagate: true
+
+  uvicorn.access:
+    level: INFO
+    handlers: [ ]
+    propagate: true
+

@@ -9,7 +9,6 @@ RUN apt-get update \
         tesseract-ocr-rus \
         tesseract-ocr-eng \
     && rm -rf /var/lib/apt/lists/*
-# try tesseract in container
 
 COPY requirements.txt .
 
