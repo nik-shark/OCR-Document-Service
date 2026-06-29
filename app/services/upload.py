@@ -1,12 +1,11 @@
-from fastapi import File, UploadFile, Depends
-from fastapi.responses import RedirectResponse
+from fastapi import File, UploadFile, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from services.s3_operations import upload_file_to_s3
 from db.models import DocumentsModel
 from db.engine import get_db
 
-ALLOWED_EXTENSIONS = {"image/jpeg", "image/png"}
+ALLOWED_EXTENSIONS = {'image/jpeg', 'image/jpg', 'image/png'}
 
 
 async def doc_upload(
@@ -14,9 +13,9 @@ async def doc_upload(
         db: AsyncSession = Depends(get_db)
 ):
     if file.content_type not in ALLOWED_EXTENSIONS:
-        return RedirectResponse(
-            url="upload/error",
-            status_code=303,
+        raise HTTPException(
+            status_code=400,
+            detail='Unsupported file type. Supported formats: JPEG, JPG, PNG.'
         )
 
     file_path = await upload_file_to_s3(file)
@@ -31,7 +30,8 @@ async def doc_upload(
 
     await db.refresh(new_document)
 
-    return RedirectResponse(
-        url="upload/success",
-        status_code=303,
-    )
+    return {
+        "id": new_document.id,
+        "path": new_document.path,
+        "date": new_document.date
+    }

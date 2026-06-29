@@ -1,22 +1,22 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+# from fastapi.staticfiles import StaticFiles
 
 from api.upload import router as upload_router
 from api.delete import router as delete_router
-from api.get_text import router as get_text_router
 from api.analyse import router as analyse_router
+from api.get_text import router as get_text_router
 
-from frontend.views.home_view import router as home_view
-from frontend.views.upload_view import router as upload_view
-from frontend.views.delete_view import router as delete_view
-from frontend.views.get_text_view import router as get_text_view
-from frontend.views.analyse_view import router as analyse_view
-from frontend.views.success_upload import router as success_upload_view
-from frontend.views.success_delete import router as success_delete_view
-from frontend.views.error_upload import router as error_upload_view
-from frontend.views.error_delete import router as error_delete_view
+# from legasy.frontend.views.home_view import router as home_view
+# from legasy.frontend.views import router as upload_view
+# from legasy.frontend.views import router as delete_view
+# from legasy.frontend.views import router as get_text_view
+# from legasy.frontend.views.analyse_view import router as analyse_view
+# from legasy.frontend.views.success_upload import router as success_upload_view
+# from legasy.frontend.views.success_delete import router as success_delete_view
+# from legasy.frontend.views import router as error_upload_view
+# from legasy.frontend.views import router as error_delete_view
 
 from db.engine import engine, Base
 
@@ -31,20 +31,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-
-# ===== html templates ===== #
-app.include_router(home_view, tags=['templates'])
-app.include_router(upload_view, tags=['templates'])
-app.include_router(delete_view, tags=['templates'])
-app.include_router(get_text_view, tags=['templates'])
-app.include_router(analyse_view, tags=['templates'])
-
-app.include_router(success_upload_view, tags=['templates'])
-app.include_router(error_upload_view, tags=['templates'])
-
-app.include_router(success_delete_view, tags=['templates'])
-app.include_router(error_delete_view, tags=['templates'])
-
 # ===== api ===== #
 app.include_router(upload_router, tags=['api'])
 app.include_router(analyse_router, tags=['api'])
@@ -52,9 +38,23 @@ app.include_router(get_text_router, tags=['api'])
 app.include_router(delete_router, tags=['api'])
 
 
-# ===== mount static files ===== #
-app.mount(
-    "/static",
-    StaticFiles(directory="frontend/static"),
-    name="static"
-)
+# # ===== html templates ===== #
+# app.include_router(home_view, tags=['templates'])
+# app.include_router(upload_view, tags=['templates'])
+# app.include_router(delete_view, tags=['templates'])
+# app.include_router(get_text_view, tags=['templates'])
+# app.include_router(analyse_view, tags=['templates'])
+#
+# app.include_router(success_upload_view, tags=['templates'])
+# app.include_router(error_upload_view, tags=['templates'])
+#
+# app.include_router(success_delete_view, tags=['templates'])
+# app.include_router(error_delete_view, tags=['templates'])
+#
+#
+# # ===== mount static files ===== #
+# app.mount(
+#     "/static",
+#     StaticFiles(directory="frontend/static"),
+#     name="static"
+# )

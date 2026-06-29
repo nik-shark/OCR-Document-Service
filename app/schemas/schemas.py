@@ -13,6 +13,8 @@ class UploadResponse(DocumentBase):
     date: datetime
 
 
-class DocumentsResponse(DocumentBase):
+class GetResponse(DocumentBase):
     doc_id: int
     text: str
+
+

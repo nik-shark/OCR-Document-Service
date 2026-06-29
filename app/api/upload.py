@@ -8,7 +8,13 @@ from services.upload import doc_upload
 router = APIRouter(prefix="/api")
 
 
-@router.post('/upload', response_model=UploadResponse)
+@router.post('/upload',
+             response_model=UploadResponse,
+             summary='Upload documents',
+             description="Uploads an image to MinIO and add information's in the database.",
+             status_code=201
+             )
+
 async def upload_doc(
         file: UploadFile = File(...),
         db: AsyncSession = Depends(get_db)

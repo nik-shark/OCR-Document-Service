@@ -7,7 +7,11 @@ from services.delete import delete_doc
 router = APIRouter(prefix="/api")
 
 
-@router.delete('/delete')
+@router.delete('/delete',
+               summary='Delete document',
+               description='Delete document from MinIO and from database.'
+               )
+
 async def doc_delete(
         item_id: int,
         db: AsyncSession = Depends(get_db)

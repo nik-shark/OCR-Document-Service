@@ -26,15 +26,19 @@ services:
       - celery_app:celery_app
       - worker
       - --loglevel=INFO
+      - --pool=solo
       - --concurrency=1
     volumes:
       -  ./app:/app
     env_file:
       - .env
     depends_on:
-      - db
-      - minio
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_started
+      minio:
+        condition: service_started
 
 
   db:
@@ -63,6 +67,24 @@ services:
     restart: unless-stopped
 
 
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
   alembic:
     build:
       context: .
@@ -76,19 +98,6 @@ services:
     working_dir: /app
     entrypoint: [ "alembic" ]
     command: [ "upgrade", "head" ]
-
-
-  rabbitmq:
-    image: rabbitmq:4-management
-    container_name: rabbitmq
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
 
 
 volumes:

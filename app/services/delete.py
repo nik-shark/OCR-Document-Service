@@ -1,5 +1,4 @@
 from fastapi import HTTPException
-from fastapi.responses import RedirectResponse
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,9 +16,9 @@ async def delete_doc(item_id: int, db: AsyncSession):
     db_item = result.scalar_one_or_none()
 
     if not db_item:
-        return RedirectResponse(
-            url="delete/error",
-            status_code=303,
+        raise HTTPException(
+            status_code=404,
+            detail='Image for delete not found.'
         )
 
     is_deleted = await delete_file_to_s3(db_item.path)
@@ -33,7 +32,7 @@ async def delete_doc(item_id: int, db: AsyncSession):
     await db.delete(db_item)
     await db.commit()
 
-    return RedirectResponse(
-        url="delete/success",
-        status_code=303,
-    )
+    return {
+        'status': 204,
+        "document_id": db_item.id,
+    }
