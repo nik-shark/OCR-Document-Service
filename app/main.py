@@ -1,12 +1,12 @@
+import logging
 from contextlib import asynccontextmanager
+
+from logging_setting import setup_logging
 
 from fastapi import FastAPI
 # from fastapi.staticfiles import StaticFiles
 
-from api.upload import router as upload_router
-from api.delete import router as delete_router
-from api.analyse import router as analyse_router
-from api.get_text import router as get_text_router
+setup_logging(service_name="web")
 
 # from legasy.frontend.views.home_view import router as home_view
 # from legasy.frontend.views import router as upload_view
@@ -18,15 +18,32 @@ from api.get_text import router as get_text_router
 # from legasy.frontend.views import router as error_upload_view
 # from legasy.frontend.views import router as error_delete_view
 
+from api.upload import router as upload_router
+from api.delete import router as delete_router
+from api.analyse import router as analyse_router
+from api.get_text import router as get_text_router
+
 from db.engine import engine, Base
+
+
+logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    logger.info('OCR service begun')
 
-    yield
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+
+        yield
+    except Exception:
+        logger.exception('Fatal applications error')
+        raise
+    finally:
+        await engine.dispose()
+        logger.info('OCR service stopped')
 
 
 app = FastAPI(lifespan=lifespan)
